@@ -1,0 +1,65 @@
+# .github/workflows/ci.yml
+
+name: CI (Build and Test Extension)
+
+# Define quando esta 'Action' deve rodar
+on:
+  # Roda em todo push para a branch 'main'
+  push:
+    branches: [ main ]
+  # Roda em todo Pull Request que tenha 'main' como alvo
+  pull_request:
+    branches: [ main ]
+  # Permite rodar manualmente pela interface do GitHub
+  workflow_dispatch:
+
+jobs:
+  # O nome do nosso "trabalho"
+  test-build:
+    # A máquina virtual que o GitHub vai usar (Ubuntu)
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Baixa o seu código para a máquina virtual
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Configura o ambiente Node.js (usando v20)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # 3. Instala as dependências (igual ao 'npm install' local)
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Instala as dependências do Playwright (o navegador Chromium)
+      #    O '--with-deps' é crucial no Linux
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      # 5. Roda o script de build (para criar a pasta dist/)
+      - name: Build extension
+        run: npm run build
+
+      # 6. Roda os testes E2E (Playwright)
+      - name: Run E2E tests
+        run: npm run test:e2e
+
+      # 7. Publica o Relatório do Playwright (SEMPRE, mesmo se o passo 6 falhar)
+      #    O 'if: always()' garante que o relatório seja salvo para vermos os erros
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report # Nome do artefato
+          path: playwright-report # Pasta local que ele deve "zipar"
+
+      # 8. Publica o .zip da extensão (SÓ SE OS TESTES PASSAREM)
+      - name: Upload extension artifact
+        if: success() # Só roda se os passos anteriores (testes) funcionarem
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-zip # Nome do artefato
+          path: dist/extension.zip # O arquivo que ele deve "zipar" no arquivo

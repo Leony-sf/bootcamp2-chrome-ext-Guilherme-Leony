@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    /* Configurações de Módulo e Target */
+    "target": "ES2022",                // Define o JavaScript "alvo" como moderno
+    "module": "NodeNext",             // DIZ AO TYPESCRIPT PARA USAR O MODO ESM MODERNO
+    "moduleResolution": "NodeNext",   // Como ele deve encontrar os módulos
+
+    /* Interoperabilidade */
+    "esModuleInterop": true,          // Permite importar módulos antigos
+    "allowSyntheticDefaultImports": true,
+
+    /* Checagem */
+    "strict": true,                   // Liga checagens rigorosas
+    "skipLibCheck": true,             // Pula a checagem de tipos das bibliotecas (acelera)
+
+    /* Configuração do Projeto */
+    "noEmit": true,                   // Não queremos que o tsc gere arquivos .js (o Playwright faz isso)
+    "allowJs": true                   // Permite que arquivos .js sejam parte do projeto
+  },
+  // Diz ao TypeScript para "olhar" apenas para os arquivos dentro da pasta tests
+  "include": ["tests/**/*.ts"]
+}

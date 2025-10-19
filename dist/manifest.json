@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name": "Hello, Guilherme!",
+    "version": "0.0.1",
+    "description": "a primeira aplicação do Guilherme.",
+    "action" : {
+        "default_popup": "popup/popup.html",
+        "default tittle": "Olá!",
+        "default_icon": {
+            "16": "icons/icon.jpg",
+            "48": "icons/icon.jpg",
+            "128": "icons/icon.jpg"
+        },
+    "icons": {
+            "16": "icons/icon.jpg",
+            "48": "icons/icon.jpg",
+            "128": "icons/icon.jpg"
+
+        }
+    }
+}

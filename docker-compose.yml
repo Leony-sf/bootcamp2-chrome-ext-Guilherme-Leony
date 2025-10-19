@@ -1,0 +1,22 @@
+services:
+  # O nome do nosso serviço de teste
+  e2e:
+    # Diz ao Compose para construir a imagem usando o Dockerfile no diretório atual ('.')
+    build: .
+    # (Opcional) Dá um nome para a imagem construída
+    image: bootcamp/ext-e2e:latest
+    
+    # Define variáveis de ambiente dentro do container
+    environment:
+      - CI=true # Muitas ferramentas usam isso para saber que estão em ambiente de automação
+      
+    # shm_size: 2gb
+    # Essencial para o Chromium rodar sem falhas de "shared memory" no Docker
+    shm_size: 2gb 
+    
+    # (Opcional, mas bom para desenvolvimento local)
+    # Monta o diretório atual ('.') no /app do container.
+    # Se você mudar um arquivo localmente, ele muda no container.
+    # NOTA: Para CI, isso não é necessário, mas para testes locais é ótimo.
+    # volumes:
+    #   - ./:/app

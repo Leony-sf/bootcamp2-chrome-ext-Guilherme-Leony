@@ -1,0 +1,18 @@
+# Ignora a pasta de módulos locais (o container vai instalar a sua própria)
+node_modules
+
+# Ignora os resultados de build e teste locais
+dist
+playwright-report
+
+# Ignora logs do npm
+npm-debug.log*
+
+# Ignora arquivos do Git
+.git
+.gitignore
+
+# Ignora arquivos do Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
